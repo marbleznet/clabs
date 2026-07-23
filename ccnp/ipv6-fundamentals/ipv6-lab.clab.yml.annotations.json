@@ -1,0 +1,125 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_ipv6_lan",
+      "text": "Shared LAN 2001:db8:acad:a::/64  (NDP / DAD / SLAAC)",
+      "position": {
+        "x": 150,
+        "y": 320
+      },
+      "fontSize": 14,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ipv6_p2p",
+      "text": "2001:db8:acad:12::/64 (p2p, link-local next-hop)",
+      "position": {
+        "x": 190,
+        "y": 110
+      },
+      "fontSize": 14,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ipv6_host",
+      "text": "R3 = SLAAC host (autoconfig)",
+      "position": {
+        "x": 340,
+        "y": 375
+      },
+      "fontSize": 14,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_ipv6_lan",
+      "shapeType": "rectangle",
+      "position": {
+        "x": 140,
+        "y": 210
+      },
+      "width": 360,
+      "height": 190,
+      "fillColor": "rgba(127, 127, 127, 0.16)",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_ipv6_host",
+      "shapeType": "rectangle",
+      "position": {
+        "x": 240,
+        "y": 330
+      },
+      "width": 120,
+      "height": 70,
+      "fillColor": "#00b3ff",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": {
+        "x": 170,
+        "y": 240
+      }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": {
+        "x": 430,
+        "y": 240
+      }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": {
+        "x": 300,
+        "y": 270
+      }
+    },
+    {
+      "id": "r3",
+      "interfacePattern": "e0/{n}",
+      "position": {
+        "x": 300,
+        "y": 360
+      }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

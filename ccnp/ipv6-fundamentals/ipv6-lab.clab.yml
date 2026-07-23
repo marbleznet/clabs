@@ -1,0 +1,64 @@
+# =============================================================================
+#  CCNP IPv6 Fundamentals Study Lab  (addressing, NDP, SLAAC)
+# =============================================================================
+#
+#  Purpose: get solid on IPv6 from the packet up, BEFORE the routing-protocol
+#  address-family labs (OSPFv3, EIGRP-for-IPv6). The startup configs bring the
+#  interfaces up but apply NO IPv6 addresses and leave IPv6 routing OFF -- you
+#  assign every address, enable 'ipv6 unicast-routing', and watch NDP / DAD /
+#  SLAAC happen on the wire with Edgeshark. See README.md.
+#
+#  Topology
+#  --------
+#                    Shared LAN  2001:db8:acad:a::/64
+#                 (NDP / DAD / solicited-node multicast / SLAAC)
+#          R1 (...a::1) ───┐        ┌─── R2 (...a::2)
+#           gateway /      │        │      second router
+#           RA source   ┌──┴────────┴──┐
+#                       │   SW1 (L2)   │
+#                       └──────┬───────┘
+#                              │
+#                          R3 (SLAAC host)  -- 'ipv6 address autoconfig'
+#
+#          R1 ─────── 2001:db8:acad:12::/64 (p2p) ─────── R2
+#          (static routing over IPv6 + link-local next-hop lesson)
+#
+#  R1, R2, R3 share one Ethernet segment (SW1, a zero-config L2 IOL switch) so
+#  all the IPv6 multicast control traffic (RS/RA/NS/NA) is visible on the wire.
+#  R3 is left bare on purpose -- it becomes a SLAAC client. The R1-R2 p2p link
+#  is for the static-routing / link-local-next-hop portion.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+# =============================================================================
+name: ipv6-lab
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.16.01
+
+  nodes:
+    # ---- LAN router / default gateway / Router-Advertisement source ----
+    r1:
+      startup-config: configs/r1.partial.cfg
+    # ---- Second router on the LAN (peer for NS/NA + DAD demos) ----
+    r2:
+      startup-config: configs/r2.partial.cfg
+    # ---- "Host": becomes a SLAAC client (ipv6 address autoconfig) ----
+    r3:
+      startup-config: configs/r3.partial.cfg
+
+    # ---- L2 switch: builds the shared multicast segment for NDP/SLAAC ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+  links:
+    # ---- Shared LAN: R1, R2, R3 all onto SW1 (2001:db8:acad:a::/64) ----
+    - endpoints: ["r1:eth1", "sw1:eth1"]
+    - endpoints: ["r2:eth1", "sw1:eth2"]
+    - endpoints: ["r3:eth1", "sw1:eth3"]
+    # ---- R1 <-> R2 point-to-point (2001:db8:acad:12::/64) ----
+    - endpoints: ["r1:eth2", "r2:eth2"]
