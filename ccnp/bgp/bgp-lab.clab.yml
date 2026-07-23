@@ -1,0 +1,70 @@
+# =============================================================================
+#  CCNP BGP Study Lab  (eBGP + iBGP + Route Reflector, 3 autonomous systems)
+# =============================================================================
+#
+#  Purpose: practice BGP on Cisco IOL from a clean slate. The startup configs
+#  apply ONLY hostnames, interfaces and IP addresses -- there is NO BGP and NO
+#  IGP/routing config. You build the IGP underlay, every BGP session, the route
+#  reflector, and all the policy by hand, capturing packets at each step. See
+#  README.md.
+#
+#  Topology
+#  --------
+#            AS 65002 (R4) ===== eBGP (10.45.0.0/30) ===== AS 65003 (R5)
+#           172.16.4.0/24  \                               /  172.16.5.0/24
+#                           \                             /
+#                   eBGP 10.14.0.0/30              eBGP 10.25.0.0/30
+#                             \                         /
+#                              \                       /
+#          AS 65001:        R1 --------- SW1 --------- R2      (core LAN
+#          our AS           (border)      |        (border)    10.0.0.0/24,
+#          iBGP + OSPF                    R3                    OSPF underlay,
+#                                     (RR + internal            iBGP over Lo0)
+#                                      172.16.3.0/24)
+#
+#  Every external prefix is reachable TWO ways from AS 65001 (a short AS-path
+#  and a long one), which is what powers the best-path / policy labs. R3 is the
+#  route reflector so R1 and R2 need no direct iBGP session.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+# =============================================================================
+name: bgp-lab
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.16.01
+
+  nodes:
+    # ---- AS 65001 (our AS): two border routers + an internal route reflector ----
+    r1:                                   # border: eBGP to AS 65002 (R4); RR client
+      startup-config: configs/r1.partial.cfg
+    r2:                                   # border: eBGP to AS 65003 (R5); RR client
+      startup-config: configs/r2.partial.cfg
+    r3:                                   # internal: route reflector + originates 172.16.3.0/24
+      startup-config: configs/r3.partial.cfg
+
+    # ---- AS 65002: external peer (originates 172.16.4.0/24) ----
+    r4:
+      startup-config: configs/r4.partial.cfg
+
+    # ---- AS 65003: external peer (originates 172.16.5.0/24) ----
+    r5:
+      startup-config: configs/r5.partial.cfg
+
+    # ---- L2 switch: the AS 65001 core LAN (iBGP + OSPF underlay) ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+  links:
+    # ---- AS 65001 core LAN: R1, R2, R3 onto SW1 (10.0.0.0/24) ----
+    - endpoints: ["r1:eth1", "sw1:eth1"]
+    - endpoints: ["r2:eth1", "sw1:eth2"]
+    - endpoints: ["r3:eth1", "sw1:eth3"]
+    # ---- eBGP links ----
+    - endpoints: ["r1:eth2", "r4:eth1"]   # R1 (AS65001) <-> R4 (AS65002)  10.14.0.0/30
+    - endpoints: ["r2:eth2", "r5:eth1"]   # R2 (AS65001) <-> R5 (AS65003)  10.25.0.0/30
+    - endpoints: ["r4:eth2", "r5:eth2"]   # R4 (AS65002) <-> R5 (AS65003)  10.45.0.0/30

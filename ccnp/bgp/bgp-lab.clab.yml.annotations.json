@@ -1,0 +1,206 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_bgp_as65001",
+      "text": "AS 65001 (our AS) · core LAN 10.0.0.0/24 · OSPF underlay + iBGP over Lo0",
+      "position": { "x": 210, "y": 360 },
+      "fontSize": 14,
+      "fontColor": "#ffffff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_as65002",
+      "text": "AS 65002 (R4) · originates 172.16.4.0/24",
+      "position": { "x": 70, "y": 92 },
+      "fontSize": 13,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_as65003",
+      "text": "AS 65003 (R5) · originates 172.16.5.0/24",
+      "position": { "x": 560, "y": 92 },
+      "fontSize": 13,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_ebgp_r1r4",
+      "text": "eBGP 10.14.0.0/30",
+      "position": { "x": 120, "y": 210 },
+      "fontSize": 12,
+      "fontColor": "#ff8c00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_ebgp_r2r5",
+      "text": "eBGP 10.25.0.0/30",
+      "position": { "x": 500, "y": 210 },
+      "fontSize": 12,
+      "fontColor": "#ff8c00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_ebgp_r4r5",
+      "text": "eBGP 10.45.0.0/30  (makes every prefix reachable two ways)",
+      "position": { "x": 230, "y": 40 },
+      "fontSize": 12,
+      "fontColor": "#ff8c00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_r1_role",
+      "text": "R1 · border (eBGP→65002) · RR client",
+      "position": { "x": 150, "y": 300 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_r2_role",
+      "text": "R2 · border (eBGP→65003) · RR client",
+      "position": { "x": 470, "y": 300 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_r3_role",
+      "text": "R3 · ROUTE REFLECTOR · originates 172.16.3.0/24",
+      "position": { "x": 285, "y": 505 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_bgp_ipv6",
+      "text": "All e0/X interfaces dual-stacked (2001:db8::/32) → MP-BGP IPv6 AF in Lab 6",
+      "position": { "x": 150, "y": 545 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "italic",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_bgp_as65001",
+      "shapeType": "rectangle",
+      "position": { "x": 150, "y": 260 },
+      "width": 480,
+      "height": 230,
+      "fillColor": "rgba(0, 179, 255, 0.16)",
+      "fillOpacity": 0.18,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_bgp_as65002",
+      "shapeType": "rectangle",
+      "position": { "x": 60, "y": 85 },
+      "width": 170,
+      "height": 130,
+      "fillColor": "#ff004c",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_bgp_as65003",
+      "shapeType": "rectangle",
+      "position": { "x": 555, "y": 85 },
+      "width": 170,
+      "height": 130,
+      "fillColor": "#d4ff00",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "r4",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 120, "y": 130 }
+    },
+    {
+      "id": "r5",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 620, "y": 130 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 240, "y": 320 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 540, "y": 320 }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 390, "y": 320 }
+    },
+    {
+      "id": "r3",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 390, "y": 450 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}
