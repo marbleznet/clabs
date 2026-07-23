@@ -1,0 +1,71 @@
+# =============================================================================
+#  CCNP OSPF Study Lab  (single-process OSPFv2, multi-area)
+# =============================================================================
+#
+#  Purpose: practice OSPF on Cisco IOL from a clean slate. The startup configs
+#  apply ONLY hostnames, interfaces and IP addresses -- there is NO OSPF and NO
+#  routing config. You build every piece of OSPF by hand, capturing packets at
+#  each step to see exactly what the protocol is doing. See README.md.
+#
+#  Topology
+#  --------
+#                          Area 1 (later: STUB)
+#                    R4 (4.4.4.4)  Lo1 172.16.40.0/24
+#                        |  10.0.14.0/30  (point-to-point)
+#                        |
+#      Area 0  ┌────── R1 (1.1.1.1) ABR ──────┐
+#   BROADCAST  │                              │
+#   LAN via    │       R2 (2.2.2.2) ABR ──────┼── 10.0.25.0/30 ── R5 (5.5.5.5)
+#   SW1        │                              │   (point-to-point)  Lo1 172.16.50.0/24
+#   10.0.0.0/24│       R3 (3.3.3.3) ASBR      │        Area 2
+#              └──────────────────────────────┘
+#                        R3 redistributes external
+#                        routes (Lo1 172.16.30.0/24 +
+#                        static routes) -> Type-5 LSAs
+#
+#  R1, R2, R3 all sit on one shared Ethernet segment (SW1, an L2 IOL switch),
+#  so this is a real broadcast multi-access network -> DR/BDR election happens
+#  here. The R1-R4 and R2-R5 links are point-to-point (no DR/BDR).
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+# =============================================================================
+name: ospf-lab
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.16.01
+
+  nodes:
+    # ---- Area 0 backbone routers (shared broadcast LAN) ----
+    r1:                                   # ABR: Area 0 <-> Area 1
+      startup-config: configs/r1.partial.cfg
+    r2:                                   # ABR: Area 0 <-> Area 2
+      startup-config: configs/r2.partial.cfg
+    r3:                                   # ASBR: redistributes externals
+      startup-config: configs/r3.partial.cfg
+
+    # ---- Area 1 (behind R1) ----
+    r4:
+      startup-config: configs/r4.partial.cfg
+
+    # ---- Area 2 (behind R2) ----
+    r5:
+      startup-config: configs/r5.partial.cfg
+
+    # ---- L2 switch: builds the Area 0 broadcast segment for DR/BDR election ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+  links:
+    # ---- Area 0 broadcast LAN: R1, R2, R3 all onto SW1 (10.0.0.0/24) ----
+    - endpoints: ["r1:eth1", "sw1:eth1"]
+    - endpoints: ["r2:eth1", "sw1:eth2"]
+    - endpoints: ["r3:eth1", "sw1:eth3"]
+    # ---- Area 1 point-to-point: R1 <-> R4 (10.0.14.0/30) ----
+    - endpoints: ["r1:eth2", "r4:eth1"]
+    # ---- Area 2 point-to-point: R2 <-> R5 (10.0.25.0/30) ----
+    - endpoints: ["r2:eth2", "r5:eth1"]

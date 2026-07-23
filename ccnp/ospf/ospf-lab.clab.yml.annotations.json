@@ -1,0 +1,194 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_ospf_area0_title",
+      "text": "Area 0 backbone  ·  10.0.0.0/24 broadcast LAN  —  DR/BDR election happens here",
+      "position": { "x": 210, "y": 232 },
+      "fontSize": 14,
+      "fontColor": "#ffffff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_area1",
+      "text": "Area 1  ·  10.0.14.0/30 (p2p)  —  stub / totally-stubby in Lab 6",
+      "position": { "x": 95, "y": 90 },
+      "fontSize": 13,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_area2",
+      "text": "Area 2  ·  10.0.25.0/30 (p2p)  —  NSSA in Lab 8",
+      "position": { "x": 585, "y": 348 },
+      "fontSize": 13,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_r1_role",
+      "text": "R1 · ABR (A0↔A1)",
+      "position": { "x": 232, "y": 306 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_r2_role",
+      "text": "R2 · ABR (A0↔A2)",
+      "position": { "x": 512, "y": 306 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_r3_role",
+      "text": "R3 · ASBR → redistributes Lo1 172.16.30.0/24 as Type-5",
+      "position": { "x": 300, "y": 436 },
+      "fontSize": 12,
+      "fontColor": "#ff8c00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_r4_role",
+      "text": "R4 · internal · Lo1 172.16.40.0/24",
+      "position": { "x": 100, "y": 158 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_r5_role",
+      "text": "R5 · internal · Lo1 172.16.50.0/24",
+      "position": { "x": 600, "y": 420 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ospf_ipv6",
+      "text": "All e0/X interfaces dual-stacked (2001:db8::/32) → OSPFv3 in Lab 11",
+      "position": { "x": 95, "y": 505 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "italic",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_ospf_area0",
+      "shapeType": "rectangle",
+      "position": { "x": 205, "y": 225 },
+      "width": 385,
+      "height": 235,
+      "fillColor": "rgba(127, 127, 127, 0.16)",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_ospf_area1",
+      "shapeType": "rectangle",
+      "position": { "x": 95, "y": 85 },
+      "width": 175,
+      "height": 150,
+      "fillColor": "#ff004c",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_ospf_area2",
+      "shapeType": "rectangle",
+      "position": { "x": 585, "y": 340 },
+      "width": 175,
+      "height": 130,
+      "fillColor": "#d4ff00",
+      "fillOpacity": 0.2,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "r4",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 150, "y": 120 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 250, "y": 270 }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 390, "y": 270 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 530, "y": 270 }
+    },
+    {
+      "id": "r3",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 390, "y": 400 }
+    },
+    {
+      "id": "r5",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 650, "y": 390 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}
