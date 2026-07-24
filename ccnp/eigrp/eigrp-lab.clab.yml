@@ -1,0 +1,80 @@
+# =============================================================================
+#  CCNP EIGRP Study Lab  (classic EIGRP / DUAL, single AS)
+# =============================================================================
+#
+#  Purpose: practice EIGRP on Cisco IOL from a clean slate. The startup configs
+#  apply ONLY hostnames, interfaces and IP addresses -- there is NO EIGRP and NO
+#  routing config. You build every piece of EIGRP by hand, capturing packets at
+#  each step to see exactly what DUAL is doing. See README.md.
+#
+#  This is the companion to ../ospf: same node count and addressing style, but
+#  the wiring is tuned for EIGRP's headline lessons -- feasible successors and
+#  query scoping -- which need REDUNDANT paths, so R4 is dual-homed.
+#
+#  Topology
+#  --------
+#                         172.16.40.0/24 (Lo1)
+#                              R4 (4.4.4.4)
+#                       10.0.14/30  /   \  10.0.24/30
+#                        (p2p)     /     \    (p2p)
+#                                 /       \
+#      ┌──────────────────── R1 (1.1.1.1) R2 (2.2.2.2) ─────────────┐
+#      │  CORE LAN 10.0.0.0/24  \          /                        │
+#      │  via SW1 (L2)           \        /                         │
+#      │  R1 .1  R2 .2  R3 .3      SW1 (L2 switch)                  │
+#      └────────────────────────────┬──────────────────────────────┘
+#                                    R3 (3.3.3.3)
+#                                    Lo1 172.16.30.0/24 (external)
+#                                    | 10.0.35.0/30 (p2p)
+#                                    R5 (5.5.5.5)  -- STUB / edge
+#                                    Lo1 172.16.50.0/24
+#
+#  R1, R2, R3 share one Ethernet segment (SW1, a zero-config L2 IOL switch).
+#  UNLIKE OSPF there is NO DR/BDR -- every router on the segment peers with
+#  every other. R4 is dual-homed to R1 and R2 so it has a successor AND a
+#  feasible successor into the core (the DUAL playground). R5 hangs single-homed
+#  off R3 so it can be made an EIGRP stub and shows how queries are bounded.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+# =============================================================================
+name: eigrp-lab
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.16.01
+
+  nodes:
+    # ---- Core routers on the shared LAN ----
+    r1:                                   # core; R4's primary path
+      startup-config: configs/r1.partial.cfg
+    r2:                                   # core; R4's backup path (feasible successor)
+      startup-config: configs/r2.partial.cfg
+    r3:                                   # core; gateway to the stub (R5) + external Lo1
+      startup-config: configs/r3.partial.cfg
+
+    # ---- R4: dual-homed edge (DUAL / feasible-successor playground) ----
+    r4:
+      startup-config: configs/r4.partial.cfg
+
+    # ---- R5: single-homed edge behind R3 (EIGRP stub / query boundary) ----
+    r5:
+      startup-config: configs/r5.partial.cfg
+
+    # ---- L2 switch: builds the shared core segment (no DR/BDR in EIGRP) ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+  links:
+    # ---- Core LAN: R1, R2, R3 all onto SW1 (10.0.0.0/24) ----
+    - endpoints: ["r1:eth1", "sw1:eth1"]
+    - endpoints: ["r2:eth1", "sw1:eth2"]
+    - endpoints: ["r3:eth1", "sw1:eth3"]
+    # ---- R4 dual-homed: to R1 (10.0.14.0/30) and to R2 (10.0.24.0/30) ----
+    - endpoints: ["r1:eth2", "r4:eth1"]
+    - endpoints: ["r2:eth2", "r4:eth2"]
+    # ---- R5 single-homed behind R3 (10.0.35.0/30) ----
+    - endpoints: ["r3:eth2", "r5:eth1"]
