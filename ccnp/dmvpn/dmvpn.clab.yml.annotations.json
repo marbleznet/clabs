@@ -1,0 +1,134 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_dmvpn_overlay",
+      "text": "DMVPN overlay · mGRE Tunnel0 172.16.0.0/24 · NHRP",
+      "position": { "x": 115, "y": 60 },
+      "fontSize": 13,
+      "fontColor": "#00b3ff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dmvpn_underlay",
+      "text": "underlay (ISP internet)",
+      "position": { "x": 232, "y": 205 },
+      "fontSize": 11,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "italic",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dmvpn_r1",
+      "text": "R1 · HUB / NHS · LAN 192.168.1.0/24",
+      "position": { "x": 210, "y": 128 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dmvpn_r2",
+      "text": "R2 · spoke · 192.168.2.0/24",
+      "position": { "x": 75, "y": 396 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dmvpn_r3",
+      "text": "R3 · spoke · 192.168.3.0/24",
+      "position": { "x": 350, "y": 396 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dmvpn_s2s",
+      "text": "spokes form DIRECT tunnels on demand (Phase 3)",
+      "position": { "x": 165, "y": 425 },
+      "fontSize": 11,
+      "fontColor": "#ff8c00",
+      "fontWeight": "normal",
+      "fontStyle": "italic",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_dmvpn_overlay",
+      "shapeType": "rectangle",
+      "position": { "x": 110, "y": 55 },
+      "width": 380,
+      "height": 335,
+      "fillColor": "#00b3ff",
+      "fillOpacity": 0.12,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_dmvpn_underlay",
+      "shapeType": "rectangle",
+      "position": { "x": 228, "y": 200 },
+      "width": 150,
+      "height": 78,
+      "fillColor": "rgba(127, 127, 127, 0.2)",
+      "fillOpacity": 0.25,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 300, "y": 95 }
+    },
+    {
+      "id": "isp",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 300, "y": 230 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 170, "y": 360 }
+    },
+    {
+      "id": "r3",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 430, "y": 360 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

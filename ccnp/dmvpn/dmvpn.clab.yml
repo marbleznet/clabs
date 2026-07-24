@@ -1,0 +1,63 @@
+# =============================================================================
+#  CCNP DMVPN Lab  (single hub: mGRE + NHRP + spoke-to-spoke, + IPsec)
+# =============================================================================
+#
+#  Purpose: build a Dynamic Multipoint VPN from scratch on Cisco IOL -- one hub,
+#  two spokes, over a simulated internet underlay. Routers boot with ONLY the
+#  physical interfaces + "public" IPs -- NO tunnels, NO NHRP, NO routing, NO
+#  IPsec. You build the whole DMVPN overlay by hand and watch NHRP registration,
+#  GRE encapsulation, and spoke-to-spoke resolution on the wire with Edgeshark.
+#  See README.md.
+#
+#  Topology
+#  --------
+#     LAN 192.168.1.0/24        overlay: mGRE tunnel 172.16.0.0/24
+#         (Lo1)                 NHRP: spokes register with the hub (NHS)
+#          R1  HUB  .1
+#           │ e0/1  203.0.11.1
+#           │
+#        ┌──┴──────────────┐
+#        │   ISP (underlay) │  routes between the "public" /30s
+#        └──┬────────────┬──┘
+#     e0/2  │            │  e0/3
+#     203.0.12.1     203.0.13.1
+#          R2 SPOKE .2      R3 SPOKE .3
+#      LAN 192.168.2.0/24   LAN 192.168.3.0/24
+#
+#     The ISP router is the "internet": each router reaches the others' public
+#     addresses through it. On top of that underlay you build the DMVPN overlay
+#     (mGRE Tunnel0, NHRP, EIGRP) so the 192.168.x LANs talk -- and spokes form
+#     DIRECT spoke-to-spoke tunnels on demand (Phase 3).
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1  ...  eth3 -> Ethernet0/3
+#
+#  NOTE: the mGRE + NHRP + routing overlay (Labs 1-3) is fully hands-on. IPsec
+#  tunnel protection (Lab 4) needs a crypto engine that the IOL image may not
+#  provide -- that section is config + describe, flagged in the README.
+# =============================================================================
+name: dmvpn-lab
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.16.01
+
+  nodes:
+    # ---- Underlay "internet" (fixture: just routes the public /30s) ----
+    isp:
+      startup-config: configs/isp.partial.cfg
+
+    # ---- DMVPN hub (NHS) ----
+    r1:
+      startup-config: configs/r1.partial.cfg
+    # ---- DMVPN spokes ----
+    r2:
+      startup-config: configs/r2.partial.cfg
+    r3:
+      startup-config: configs/r3.partial.cfg
+
+  links:
+    - endpoints: ["r1:eth1", "isp:eth1"]   # hub  public 203.0.11.0/30
+    - endpoints: ["r2:eth1", "isp:eth2"]   # spoke public 203.0.12.0/30
+    - endpoints: ["r3:eth1", "isp:eth3"]   # spoke public 203.0.13.0/30

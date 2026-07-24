@@ -1,0 +1,75 @@
+# =============================================================================
+#  CCNP DHCP Lab  (IPv4 + IPv6: client, IOS server, relay, options)
+# =============================================================================
+#
+#  Purpose: practice DHCP end-to-end on Cisco IOL -- the IOS DHCP server, DHCP
+#  relay across a router, DHCP options, the IOS DHCP client, and the whole
+#  DHCPv6 story (stateless, stateful, relay). Routers boot with ONLY interfaces
+#  and IPs (servers/relays are the base gateways) -- NO DHCP config. You build
+#  every pool/relay by hand and watch DORA / DHCPv6 on the wire with Edgeshark.
+#  See README.md.
+#
+#  Topology
+#  --------
+#     LAN-A 10.0.1.0/24 (direct, no relay)        LAN-B 10.0.2.0/24 (relayed)
+#     2001:db8:1::/64                              2001:db8:2::/64
+#                                                     [pc2]   [r3 IOS client]
+#     [pc1] ── R1 ═══ transit 10.0.12.0/30 ═══ R2 ──┴── SW1 ──┘
+#      client   (DHCP server v4+v6)      (DHCP relay)
+#
+#     R1  IOS DHCP server (v4 + v6). Directly serves LAN-A.
+#     R2  DHCP relay: forwards LAN-B clients' requests to R1 (ip helper-address /
+#         ipv6 dhcp relay). Also the LAN-B gateway.
+#     pc1 direct DHCP client (LAN-A)      pc2 relayed DHCP client (LAN-B)
+#     r3  IOS DHCP client on LAN-B (ip address dhcp / ipv6 address dhcp)
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+#
+#  NOTE: the Linux hosts are DHCP CLIENTS -- they get NO address at boot (the
+#  server doesn't exist until you configure it). Trigger a lease on demand from
+#  the host (busybox `udhcpc -i eth1`) after building the server. IPv6 DHCP
+#  client support in the busybox image is limited -- the IOS client (r3) is the
+#  reliable DHCPv6-client demo. Flagged in the README.
+# =============================================================================
+name: dhcp-lab
+
+topology:
+  nodes:
+    # ---- DHCP server (v4 + v6) + LAN-A gateway ----
+    r1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r1.partial.cfg
+    # ---- DHCP relay + LAN-B gateway ----
+    r2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r2.partial.cfg
+    # ---- IOS DHCP client (LAN-B) ----
+    r3:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r3.partial.cfg
+
+    # ---- LAN-B switch ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+    # ---- Direct DHCP client on LAN-A ----
+    pc1:
+      kind: linux
+      image: wbitt/network-multitool:latest
+    # ---- Relayed DHCP client on LAN-B ----
+    pc2:
+      kind: linux
+      image: wbitt/network-multitool:latest
+
+  links:
+    - endpoints: ["r1:eth1", "pc1:eth1"]    # LAN-A (direct client)
+    - endpoints: ["r1:eth2", "r2:eth1"]     # transit
+    - endpoints: ["r2:eth2", "sw1:eth1"]    # LAN-B uplink
+    - endpoints: ["pc2:eth1", "sw1:eth2"]   # relayed client
+    - endpoints: ["r3:eth1", "sw1:eth3"]    # IOS DHCP client

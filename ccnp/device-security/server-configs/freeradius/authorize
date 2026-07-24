@@ -1,0 +1,7 @@
+# FreeRADIUS user database (files module: /etc/raddb/mods-config/files/authorize).
+# One test user. The Cisco-AVPair drops the user straight to privilege 15 so you
+# can see RADIUS carry authorization attributes, not just a yes/no.
+
+raduser Cleartext-Password := "radpass"
+        Service-Type = NAS-Prompt-User,
+        Cisco-AVPair = "shell:priv-lvl=15"

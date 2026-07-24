@@ -1,0 +1,92 @@
+# =============================================================================
+#  CCNP Device Security Lab  (AAA + device management + CoPP)
+# =============================================================================
+#
+#  Purpose: practice securing and managing the router's MANAGEMENT and CONTROL
+#  planes on Cisco IOL. The routers boot with ONLY interfaces and IP addresses --
+#  no SSH, no AAA, no CoPP, no routing. You build every security concept by hand
+#  and use Edgeshark captures to *see* the difference (Telnet cleartext vs SSH,
+#  RADIUS vs TACACS+ on the wire, CoPP policing control-plane floods). See
+#  README.md.
+#
+#  This lab adds a new pattern to the series: LINUX HELPER CONTAINERS. Alongside
+#  the cisco_iol routers we run a RADIUS server, a TACACS+ server, and an admin
+#  workstation, all on one management LAN.
+#
+#  Topology
+#  --------
+#      [radius 10.0.0.10]   [tacacs 10.0.0.11]   [admin 10.0.0.100]
+#              \                   |                   /
+#               └──────────── SW1 (L2) ──────────────┘
+#                          management LAN
+#                          10.0.0.0/24
+#                        /              \
+#                   R1 (.1) ---- OSPF ---- R2 (.2)
+#                (device under test)   (peer: gives CoPP some
+#                                       routing control-plane traffic)
+#
+#  R1 is the main "device under test." R2 is a routing peer so CoPP has real
+#  OSPF/BGP control-plane traffic to protect. The admin box drives SSH/SCP and
+#  the CoPP flood tests; the two servers back the AAA labs.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1
+#
+#  NOTE: the RADIUS/TACACS+/admin container images are pulled from Docker Hub.
+#  Local AAA (Lab 2), device management (Lab 1) and CoPP (Lab 5) work with NO
+#  external server. Only the RADIUS (Lab 3) and TACACS+ (Lab 4) sections depend
+#  on the server containers -- swap the images/configs to whatever you have.
+# =============================================================================
+name: device-security
+
+topology:
+  nodes:
+    # ---- Device under test + a routing peer (cisco_iol) ----
+    r1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r1.partial.cfg
+    r2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r2.partial.cfg
+
+    # ---- Management LAN switch ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+    # ---- RADIUS server (IETF; UDP 1812/1813) ----
+    radius:
+      kind: linux
+      image: freeradius/freeradius-server:latest
+      binds:
+        - server-configs/freeradius/clients.conf:/etc/raddb/clients.conf
+        - server-configs/freeradius/authorize:/etc/raddb/mods-config/files/authorize
+      exec:
+        - ip address add 10.0.0.10/24 dev eth1
+
+    # ---- TACACS+ server (Cisco; TCP 49) ----
+    #  Image name/config path may differ on your host -- see README Lab 4.
+    tacacs:
+      kind: linux
+      image: lfkeitel/tacacs_plus:alpine
+      binds:
+        - server-configs/tacacs/tac_plus.conf:/etc/tac_plus/tac_plus.conf
+      exec:
+        - ip address add 10.0.0.11/24 dev eth1
+
+    # ---- Admin workstation (SSH/SCP client + CoPP flood generator) ----
+    admin:
+      kind: linux
+      image: wbitt/network-multitool:latest
+      exec:
+        - ip address add 10.0.0.100/24 dev eth1
+
+  links:
+    - endpoints: ["r1:eth1", "sw1:eth1"]
+    - endpoints: ["r2:eth1", "sw1:eth2"]
+    - endpoints: ["radius:eth1", "sw1:eth3"]
+    - endpoints: ["tacacs:eth1", "sw1:eth4"]
+    - endpoints: ["admin:eth1", "sw1:eth5"]

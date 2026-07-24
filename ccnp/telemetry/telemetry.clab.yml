@@ -1,0 +1,79 @@
+# =============================================================================
+#  CCNP Telemetry & Monitoring Lab  (SNMP, Syslog/Logging, NetFlow)
+# =============================================================================
+#
+#  Purpose: practice the "how do I see what the network is doing" toolset on
+#  Cisco IOL -- SNMP (v2c/v3), logging/syslog/debugs, and NetFlow (traditional,
+#  Flexible NetFlow, IPFIX). R1 boots with ONLY interfaces and IP addresses --
+#  no SNMP, no logging config, no NetFlow. You build every exporter/agent by
+#  hand and watch the telemetry leave R1 on the wire with Edgeshark, and land on
+#  the nms collector. See README.md.
+#
+#  Topology
+#  --------
+#     [nms 10.0.0.10]   [host1 10.0.0.20]        LAN 10.0.0.0/24
+#     SNMP poller +          traffic source
+#     syslog + NetFlow          |
+#     collector                 |
+#          \                   /
+#           └──── SW1 (L2) ───┘
+#                     │  e0/1
+#                   R1  (monitored router: SNMP agent, syslog+NetFlow exporter)
+#                     │  e0/2   10.0.12.0/30
+#                   R2  (OSPF neighbor; Lo1 172.16.2.0/24 = traffic destination)
+#
+#  Traffic host1/nms <-> 172.16.2.x flows THROUGH R1, so NetFlow on R1 sees real
+#  flows. R1<->R2 OSPF gives syslog some neighbor up/down events to log.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+#
+#  NOTE: the nms collector uses a general Linux image. The ROUTER side (SNMP
+#  agent, logging, NetFlow export) is fully hands-on, and the telemetry is
+#  visible ON THE WIRE via Edgeshark regardless of collector tooling. snmpwalk /
+#  nfcapd / a syslog daemon on nms may need a tool-specific image -- flagged in
+#  the README.
+# =============================================================================
+name: telemetry-lab
+
+topology:
+  nodes:
+    # ---- Monitored router: SNMP agent, syslog source, NetFlow exporter ----
+    r1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r1.partial.cfg
+
+    # ---- OSPF neighbor + traffic destination (Lo1 172.16.2.0/24) ----
+    r2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r2.partial.cfg
+
+    # ---- LAN switch ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+    # ---- NMS: SNMP poller + syslog + NetFlow collector ----
+    nms:
+      kind: linux
+      image: wbitt/network-multitool:latest
+      exec:
+        - ip address add 10.0.0.10/24 dev eth1
+        - ip route add default via 10.0.0.1
+
+    # ---- Traffic source on the LAN ----
+    host1:
+      kind: linux
+      image: wbitt/network-multitool:latest
+      exec:
+        - ip address add 10.0.0.20/24 dev eth1
+        - ip route add default via 10.0.0.1
+
+  links:
+    - endpoints: ["r1:eth1", "sw1:eth1"]    # R1 <-> LAN
+    - endpoints: ["nms:eth1", "sw1:eth2"]   # collector
+    - endpoints: ["host1:eth1", "sw1:eth3"] # traffic source
+    - endpoints: ["r1:eth2", "r2:eth1"]     # R1 <-> R2 (OSPF)

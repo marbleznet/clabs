@@ -1,0 +1,168 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_dhcp_lana",
+      "text": "LAN-A 10.0.1.0/24 · 2001:db8:1::/64 (direct)",
+      "position": { "x": 55, "y": 178 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_lanb",
+      "text": "LAN-B 10.0.2.0/24 · 2001:db8:2::/64 (relayed)",
+      "position": { "x": 470, "y": 132 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_r1",
+      "text": "R1 · DHCP server (v4+v6)",
+      "position": { "x": 160, "y": 285 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_r2",
+      "text": "R2 · DHCP relay",
+      "position": { "x": 345, "y": 285 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_transit",
+      "text": "transit 10.0.12.0/30",
+      "position": { "x": 285, "y": 218 },
+      "fontSize": 11,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_pc1",
+      "text": "pc1 · direct client",
+      "position": { "x": 45, "y": 272 },
+      "fontSize": 11,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_pc2",
+      "text": "pc2 · relayed client",
+      "position": { "x": 595, "y": 148 },
+      "fontSize": 11,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_dhcp_r3",
+      "text": "r3 · IOS DHCP client",
+      "position": { "x": 585, "y": 358 },
+      "fontSize": 11,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_dhcp_lana",
+      "shapeType": "rectangle",
+      "position": { "x": 50, "y": 198 },
+      "width": 225,
+      "height": 95,
+      "fillColor": "#00b3ff",
+      "fillOpacity": 0.14,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_dhcp_lanb",
+      "shapeType": "rectangle",
+      "position": { "x": 468, "y": 150 },
+      "width": 225,
+      "height": 215,
+      "fillColor": "#d4ff00",
+      "fillOpacity": 0.14,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "pc1",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 90, "y": 240 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 220, "y": 240 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 380, "y": 240 }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 510, "y": 240 }
+    },
+    {
+      "id": "pc2",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 620, "y": 170 }
+    },
+    {
+      "id": "r3",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 620, "y": 320 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

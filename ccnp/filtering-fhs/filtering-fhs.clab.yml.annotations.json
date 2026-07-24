@@ -1,0 +1,127 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_ffhs_lan",
+      "text": "LAN 10.0.0.0/24 · 2001:db8:a::/64  —  IPv6 First-Hop Security on SW1",
+      "position": { "x": 105, "y": 74 },
+      "fontSize": 13,
+      "fontColor": "#ffffff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ffhs_pc1",
+      "text": "pc1 · legit client",
+      "position": { "x": 100, "y": 132 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ffhs_rogue",
+      "text": "rogue · spoofing / rogue RA·DHCP",
+      "position": { "x": 300, "y": 132 },
+      "fontSize": 12,
+      "fontColor": "#ff004c",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ffhs_r1",
+      "text": "R1 gateway · ACLs (v4/v6) · uRPF · IPv6 traffic-filter",
+      "position": { "x": 130, "y": 372 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_ffhs_ext",
+      "text": "ext · outside host/server · 203.0.113.0/24 · 2001:db8:e::/64",
+      "position": { "x": 150, "y": 482 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_ffhs_lan",
+      "shapeType": "rectangle",
+      "position": { "x": 100, "y": 68 },
+      "width": 360,
+      "height": 195,
+      "fillColor": "#ff004c",
+      "fillOpacity": 0.14,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_ffhs_gw",
+      "shapeType": "rectangle",
+      "position": { "x": 185, "y": 300 },
+      "width": 300,
+      "height": 75,
+      "fillColor": "#00b3ff",
+      "fillOpacity": 0.16,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "pc1",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 150, "y": 100 }
+    },
+    {
+      "id": "rogue",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 360, "y": 100 }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 255, "y": 215 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 255, "y": 335 }
+    },
+    {
+      "id": "ext",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 255, "y": 450 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

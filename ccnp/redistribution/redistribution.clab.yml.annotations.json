@@ -1,0 +1,153 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_redist_ospf",
+      "text": "OSPF Area 0 · 192.168.x nets",
+      "position": { "x": 75, "y": 116 },
+      "fontSize": 13,
+      "fontColor": "#00b3ff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_redist_eigrp",
+      "text": "EIGRP AS 100 · 172.16.x nets",
+      "position": { "x": 512, "y": 196 },
+      "fontSize": 13,
+      "fontColor": "#d4ff00",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_redist_boundary",
+      "text": "Boundary routers — mutual redistribution (the loop engine)",
+      "position": { "x": 300, "y": 74 },
+      "fontSize": 13,
+      "fontColor": "#ff004c",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_redist_r5",
+      "text": "R5 · static routes → OSPF (non-dynamic source)",
+      "position": { "x": 55, "y": 186 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_redist_r2",
+      "text": "R2 · redistribute OSPF ↔ EIGRP",
+      "position": { "x": 345, "y": 116 },
+      "fontSize": 12,
+      "fontColor": "#ff004c",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_redist_r3",
+      "text": "R3 · redistribute OSPF ↔ EIGRP (2nd point)",
+      "position": { "x": 345, "y": 396 },
+      "fontSize": 12,
+      "fontColor": "#ff004c",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_redist_ospf",
+      "shapeType": "rectangle",
+      "position": { "x": 70, "y": 110 },
+      "width": 270,
+      "height": 220,
+      "fillColor": "#00b3ff",
+      "fillOpacity": 0.14,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_redist_eigrp",
+      "shapeType": "rectangle",
+      "position": { "x": 510, "y": 185 },
+      "width": 160,
+      "height": 145,
+      "fillColor": "#d4ff00",
+      "fillOpacity": 0.16,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_redist_boundary",
+      "shapeType": "rectangle",
+      "position": { "x": 360, "y": 100 },
+      "width": 115,
+      "height": 315,
+      "fillColor": "#ff004c",
+      "fillOpacity": 0.16,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "r5",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 110, "y": 150 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 250, "y": 250 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 410, "y": 140 }
+    },
+    {
+      "id": "r3",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 410, "y": 360 }
+    },
+    {
+      "id": "r4",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 580, "y": 250 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

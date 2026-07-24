@@ -1,0 +1,66 @@
+# =============================================================================
+#  CCNP Redistribution & Route Control Lab  (OSPF <-> EIGRP, two boundaries)
+# =============================================================================
+#
+#  Purpose: practice route redistribution and control on Cisco IOL from a clean
+#  slate. The startup configs apply ONLY hostnames, interfaces and IP addresses
+#  -- no OSPF, no EIGRP, no redistribution. You build both routing domains, then
+#  redistribute between them and wrestle the classic problems: feedback loops,
+#  suboptimal routing, administrative distance, tags, filtering, summarization.
+#  See README.md.
+#
+#  Topology  --  TWO domains joined by TWO boundary routers (the diamond that
+#  causes redistribution loops):
+#
+#        OSPF Area 0                                   EIGRP AS 100
+#     ┌───────────────┐                             ┌───────────────┐
+#     │   R5 (static  │        R2 (ASBR/redist)     │               │
+#     │   source) ─ R1 ┼── OSPF ──┤             ├── EIGRP ──┼ R4     │
+#     │        192.168 │        R3 (ASBR/redist)     │  172.16       │
+#     └───────────────┘                             └───────────────┘
+#
+#     R1  OSPF-only core (192.168.x nets + a /22 summary block)
+#     R5  OSPF edge; redistributes STATIC routes (a non-dynamic source)
+#     R2  boundary #1  -- OSPF (e0/1) + EIGRP (e0/2), mutual redistribution
+#     R3  boundary #2  -- OSPF (e0/1) + EIGRP (e0/2), mutual redistribution
+#     R4  EIGRP-only core (172.16.x nets + a /22 summary block)
+#
+#  Two redistribution points (R2 AND R3) are the whole point: with only one,
+#  redistribution is easy; with two, routes can leak back into the domain they
+#  came from -> loops / suboptimal routing that you fix with tags, AD, filters.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2   eth3 -> Ethernet0/3
+# =============================================================================
+name: redist-lab
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.16.01
+
+  nodes:
+    # ---- OSPF domain ----
+    r1:                                   # OSPF core (192.168.x + /22 summary block)
+      startup-config: configs/r1.partial.cfg
+    r5:                                   # OSPF edge; redistributes STATIC routes
+      startup-config: configs/r5.partial.cfg
+
+    # ---- Boundary routers (OSPF + EIGRP, mutual redistribution) ----
+    r2:
+      startup-config: configs/r2.partial.cfg
+    r3:
+      startup-config: configs/r3.partial.cfg
+
+    # ---- EIGRP domain ----
+    r4:                                   # EIGRP core (172.16.x + /22 summary block)
+      startup-config: configs/r4.partial.cfg
+
+  links:
+    # ---- OSPF domain links ----
+    - endpoints: ["r1:eth1", "r2:eth1"]   # R1 <-> R2 (OSPF)  10.12.0.0/30
+    - endpoints: ["r1:eth2", "r3:eth1"]   # R1 <-> R3 (OSPF)  10.13.0.0/30
+    - endpoints: ["r1:eth3", "r5:eth1"]   # R1 <-> R5 (OSPF)  10.15.0.0/30
+    # ---- EIGRP domain links ----
+    - endpoints: ["r2:eth2", "r4:eth1"]   # R2 <-> R4 (EIGRP) 10.24.0.0/30
+    - endpoints: ["r3:eth2", "r4:eth2"]   # R3 <-> R4 (EIGRP) 10.34.0.0/30

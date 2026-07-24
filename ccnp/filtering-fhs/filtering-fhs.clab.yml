@@ -1,0 +1,90 @@
+# =============================================================================
+#  CCNP Filtering & First-Hop Security Lab  (ACLs, uRPF, IPv6 FHS)
+# =============================================================================
+#
+#  Purpose: practice data-plane filtering and IPv6 first-hop security on Cisco
+#  IOL. R1 boots with ONLY interfaces and IP addresses -- no ACLs, no uRPF, no
+#  FHS. You build every filter by hand and use Edgeshark captures + the Linux
+#  hosts to see what's permitted, dropped, and spoofed. See README.md.
+#
+#  Topology
+#  --------
+#     [pc1  10.0.0.10]   [rogue 10.0.0.66]           LAN 10.0.0.0/24
+#          legit client       attacker               2001:db8:a::/64
+#              \                 /
+#               └──── SW1 (L2, IPv6 First-Hop Security) ────┐
+#                                                           │  e0/1
+#                                                         R1 (gateway)
+#                                        ACLs (v4/v6) · uRPF · IPv6 filter
+#                                                           │  e0/2
+#                                            external 203.0.113.0/24
+#                                                     2001:db8:e::/64
+#                                                           │
+#                                                 [ext  203.0.113.100]
+#                                                   outside host/server
+#
+#  R1 routes LAN <-> external and is where you apply ACLs and uRPF. SW1 is the
+#  access switch where IPv6 First-Hop Security lives (RA guard, DHCP guard,
+#  device-tracking/binding table, ND inspection, source guard). The rogue host
+#  is for source-spoofing (uRPF) and rogue-RA/DHCP (FHS) scenarios.
+#
+#  Interface map (containerlab ethX -> IOL Ethernet0/X, E0/0 = mgmt):
+#    eth1 -> Ethernet0/1   eth2 -> Ethernet0/2
+#
+#  NOTE: IPv6 First-Hop Security (Lab 6) runs on SW1's IOL L2 image -- support
+#  for the device-tracking/FHS commands may vary by image; the binding-table
+#  demo works from normal host ND, and the rogue-RA/DHCP attacks are described
+#  (they need thc-ipv6/radvd on the rogue). ACLs + uRPF (Labs 1-5) are pure
+#  router IOS and fully hands-on.
+# =============================================================================
+name: filter-fhs-lab
+
+topology:
+  nodes:
+    # ---- Gateway router: ACLs, uRPF, IPv6 traffic filter ----
+    r1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.16.01
+      startup-config: configs/r1.partial.cfg
+
+    # ---- Access switch: IPv6 First-Hop Security ----
+    sw1:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:L2-17.16.01
+
+    # ---- Legit client on the LAN ----
+    pc1:
+      kind: linux
+      image: wbitt/network-multitool:latest
+      exec:
+        - ip address add 10.0.0.10/24 dev eth1
+        - ip route add default via 10.0.0.1
+        - ip -6 address add 2001:db8:a::10/64 dev eth1
+        - ip -6 route add default via 2001:db8:a::1
+
+    # ---- Attacker on the LAN (source spoofing, rogue RA/DHCP) ----
+    rogue:
+      kind: linux
+      image: wbitt/network-multitool:latest
+      exec:
+        - ip address add 10.0.0.66/24 dev eth1
+        - ip route add default via 10.0.0.1
+        - ip -6 address add 2001:db8:a::66/64 dev eth1
+        - ip -6 route add default via 2001:db8:a::1
+
+    # ---- Outside host / server on the external segment ----
+    ext:
+      kind: linux
+      image: wbitt/network-multitool:latest
+      exec:
+        - ip address add 203.0.113.100/24 dev eth1
+        - ip route add default via 203.0.113.1
+        - ip -6 address add 2001:db8:e::100/64 dev eth1
+        - ip -6 route add default via 2001:db8:e::1
+
+  links:
+    - endpoints: ["r1:eth1", "sw1:eth1"]    # R1 <-> SW1 (LAN uplink)
+    - endpoints: ["pc1:eth1", "sw1:eth2"]   # legit client
+    - endpoints: ["rogue:eth1", "sw1:eth3"] # attacker
+    - endpoints: ["r1:eth2", "ext:eth1"]    # external segment

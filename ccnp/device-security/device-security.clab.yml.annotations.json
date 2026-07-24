@@ -1,0 +1,158 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_devsec_lan",
+      "text": "Management LAN · 10.0.0.0/24  (shared secret CISCO123)",
+      "position": { "x": 130, "y": 48 },
+      "fontSize": 14,
+      "fontColor": "#ffffff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_devsec_radius",
+      "text": "RADIUS · UDP 1812/1813 · password-only",
+      "position": { "x": 110, "y": 122 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_devsec_tacacs",
+      "text": "TACACS+ · TCP 49 · full-body · per-cmd authz",
+      "position": { "x": 295, "y": 122 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_devsec_admin",
+      "text": "admin · SSH/SCP client + CoPP flood source",
+      "position": { "x": 480, "y": 122 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_devsec_r1",
+      "text": "R1 · DEVICE UNDER TEST (AAA · SSH · CoPP)",
+      "position": { "x": 175, "y": 408 },
+      "fontSize": 12,
+      "fontColor": "#ff004c",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_devsec_r2",
+      "text": "R2 · OSPF peer → control-plane traffic for CoPP",
+      "position": { "x": 395, "y": 408 },
+      "fontSize": 12,
+      "fontColor": "#ff8c00",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_devsec_lan",
+      "shapeType": "rectangle",
+      "position": { "x": 110, "y": 70 },
+      "width": 520,
+      "height": 350,
+      "fillColor": "rgba(127, 127, 127, 0.16)",
+      "fillOpacity": 0.16,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_devsec_aaa",
+      "shapeType": "rectangle",
+      "position": { "x": 120, "y": 78 },
+      "width": 330,
+      "height": 95,
+      "fillColor": "#00b3ff",
+      "fillOpacity": 0.18,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_devsec_dut",
+      "shapeType": "rectangle",
+      "position": { "x": 195, "y": 340 },
+      "width": 150,
+      "height": 85,
+      "fillColor": "#ff004c",
+      "fillOpacity": 0.18,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "radius",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 165, "y": 100 }
+    },
+    {
+      "id": "tacacs",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 345, "y": 100 }
+    },
+    {
+      "id": "admin",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 535, "y": 100 }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 345, "y": 235 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 250, "y": 375 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 440, "y": 375 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

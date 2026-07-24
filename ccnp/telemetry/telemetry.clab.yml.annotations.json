@@ -1,0 +1,127 @@
+{
+  "freeTextAnnotations": [
+    {
+      "id": "freeText_tel_lan",
+      "text": "LAN 10.0.0.0/24  —  SNMP / syslog / NetFlow collector (nms)",
+      "position": { "x": 105, "y": 74 },
+      "fontSize": 13,
+      "fontColor": "#ffffff",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_tel_nms",
+      "text": "nms · SNMP poller + syslog + NetFlow collector",
+      "position": { "x": 90, "y": 132 },
+      "fontSize": 12,
+      "fontColor": "#00b3ff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_tel_host1",
+      "text": "host1 · traffic source",
+      "position": { "x": 320, "y": 132 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_tel_r1",
+      "text": "R1 · MONITORED — SNMP agent · syslog · NetFlow exporter",
+      "position": { "x": 130, "y": 372 },
+      "fontSize": 12,
+      "fontColor": "#d4ff00",
+      "fontWeight": "bold",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    },
+    {
+      "id": "freeText_tel_r2",
+      "text": "R2 · OSPF neighbor · Lo1 172.16.2.0/24 (traffic dest)",
+      "position": { "x": 140, "y": 482 },
+      "fontSize": 12,
+      "fontColor": "#ffffff",
+      "fontWeight": "normal",
+      "fontStyle": "normal",
+      "textDecoration": "none",
+      "textAlign": "left",
+      "fontFamily": "Arial"
+    }
+  ],
+  "freeShapeAnnotations": [
+    {
+      "id": "freeShape_tel_lan",
+      "shapeType": "rectangle",
+      "position": { "x": 100, "y": 68 },
+      "width": 360,
+      "height": 195,
+      "fillColor": "rgba(127, 127, 127, 0.16)",
+      "fillOpacity": 0.16,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    },
+    {
+      "id": "freeShape_tel_mon",
+      "shapeType": "rectangle",
+      "position": { "x": 185, "y": 305 },
+      "width": 300,
+      "height": 72,
+      "fillColor": "#d4ff00",
+      "fillOpacity": 0.16,
+      "borderColor": "#ffffff",
+      "borderWidth": 1,
+      "borderStyle": "solid",
+      "rotation": 0,
+      "zIndex": -1
+    }
+  ],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "nms",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 150, "y": 100 }
+    },
+    {
+      "id": "host1",
+      "interfacePattern": "eth{n}",
+      "position": { "x": 360, "y": 100 }
+    },
+    {
+      "id": "sw1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 255, "y": 215 }
+    },
+    {
+      "id": "r1",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 255, "y": 335 }
+    },
+    {
+      "id": "r2",
+      "interfacePattern": "e0/{n}",
+      "position": { "x": 255, "y": 450 }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}
